@@ -11,17 +11,18 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
       ("/etc/nixos/14APH8/default.nix")
     ];
-
+  
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-
+  
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/b4a6a2b5-e2f9-4502-8d68-5c77190ba00f";
       fsType = "ext4";
     };
 
+  #boot.initrd.luks.devices."luks-8628814e-2103-48a3-bfb8-a439e23c7e92".device = "/dev/disk/by-uuid/8628814e-2103-48a3-bfb8-a439e23c7e92";  
   boot.initrd.luks.devices."luks-ea7427f8-5e76-4765-ac55-579b059f0bfa".device = "/dev/disk/by-uuid/ea7427f8-5e76-4765-ac55-579b059f0bfa";
 
   fileSystems."/boot" =
@@ -51,7 +52,7 @@
 	};
 */
 
-	hardware.nvidia = {
+	/*hardware.nvidia = {
   package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
     # This is the latest driver with the CVE patches + explicit sync
     version = "555.52.04";
@@ -71,7 +72,8 @@
   # powerManagement.finegrained only makes sense if you have a multi-gpu setup
   # nvidiaSettings is enabled by default anyway
   # The open driver is recommended even by nvidia these days
-  open = true;
+  #open = true;
+  open = lib.mkOverride 990 (nividiaPackage ? open && nividiaPackage ? firmware);
 	prime = { 
 		amdgpuBusId = "PCI:01:00:0";
 		nvidiaBusId = "PCI:06:00:0";
@@ -87,7 +89,7 @@
 # Without this you won't be using nvidia's semi-proprietary driver,
 # but the very slow nouveau
 services.xserver.videoDrivers = ["nvidia"];
-
+*/
 
 /*environment.variables = {
   GDK_SCALE = "2";

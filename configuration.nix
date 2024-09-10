@@ -17,7 +17,6 @@
   networking.networkmanager.wifi.powersave = false;
 #  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  boot.initrd.luks.devices."luks-8628814e-2103-48a3-bfb8-a439e23c7e92".device = "/dev/disk/by-uuid/8628814e-2103-48a3-bfb8-a439e23c7e92";
 
 
  # boot.blacklistedKernelModules = [ "wlp9s0" ];  # onboard Wi-Fi module
@@ -166,6 +165,7 @@ hardware.opengl = {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+	nvtopPackages.nvidia
 	amdvlk 
   	terminator
 	kitty
@@ -336,6 +336,28 @@ xdg.portal = {
 
   #helps with dual boot windows time
   time.hardwareClockInLocalTime = true;
+
+
+  # Limit the number of generations to keep
+  boot.loader.systemd-boot.configurationLimit = 10;
+  # boot.loader.grub.configurationLimit = 10;
+
+  # Perform garbage collection weekly to maintain low disk usage
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 8w";
+  };
+
+  # Optimize storage
+  # You can also manually optimize the store via:
+  #    nix-store --optimise
+  # Refer to the following link for more details:
+  # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
+  nix.settings.auto-optimise-store = true;
+
+
+  system.autoUpgrade.enable  = true;
 
 
   # This value determines the NixOS release from which the default
