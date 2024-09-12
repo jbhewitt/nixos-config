@@ -3,19 +3,45 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+	imports =
+    	[ # Include the results of the hardware scan.
+      	./hardware-configuration.nix
+    	];
 
+/*let
+  diskUUID = "ea7427f8-5e76-4765-ac55-579b059f0bfa";  # Replace with your actual disk UUID
+  isRavageDiskPresent = builtins.elem diskUUID (builtins.attrNames config.fileSystems);
+in
+{
+  # Base configuration for all systems
+
+  # Conditional configuration based on the presence of the disk with the specified UUID
+  fileSystems = if isRavageDiskPresent then
+    {
+	imports =
+    	[ # Include the results of the hardware scan.
+      	./hardware-configuration.nix
+    	];
+    }
+    else
+    {
+      # If the disk is not present, define a fallback or omit the configuration
+	imports =
+    	[ # Include the results of the hardware scan.
+      	./hardware-configuration.nix
+    	];
+
+    };
+};
+*/
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.networkmanager.wifi.powersave = false;
 #  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
 
 
 

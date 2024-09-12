@@ -11,6 +11,9 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
       ("/etc/nixos/14APH8/default.nix")
     ];
+ 
+  boot.initrd.luks.devices."luks-8628814e-2103-48a3-bfb8-a439e23c7e92".device = "/dev/disk/by-uuid/8628814e-2103-48a3-bfb8-a439e23c7e92";  
+  boot.initrd.luks.devices."luks-ea7427f8-5e76-4765-ac55-579b059f0bfa".device = "/dev/disk/by-uuid/ea7427f8-5e76-4765-ac55-579b059f0bfa";
   
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
@@ -22,8 +25,6 @@
       fsType = "ext4";
     };
 
-  #boot.initrd.luks.devices."luks-8628814e-2103-48a3-bfb8-a439e23c7e92".device = "/dev/disk/by-uuid/8628814e-2103-48a3-bfb8-a439e23c7e92";  
-  boot.initrd.luks.devices."luks-ea7427f8-5e76-4765-ac55-579b059f0bfa".device = "/dev/disk/by-uuid/ea7427f8-5e76-4765-ac55-579b059f0bfa";
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/E2CC-3CC9";
